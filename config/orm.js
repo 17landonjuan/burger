@@ -14,33 +14,33 @@ var orm = {
 
         connection.query(s, function (err, result) {
 
-            callback(result);
+            return (result);
 
         });
     },
 
 
 
-    insertOne: function (burger, callback) {
+    insertOne: function (burger, ) {
         var s = "INSERT INTO " + tableName + " (text, complete) VALUES (?,?)";
         burger.complete = burger.complete || 0;
         connection.query(s, [
             burger.text, burger.complete
         ], function (err, result) {
 
-            callback(result);
+            return (result);
 
         });
     },
 
-    updateOne: function (burger, callback) {
+    updateOne: function (burger, cb) {
         var s = "UPDATE " + tableName + " SET text=? WHERE id=?";
 
         connection.query(s, [
             burger.text, burger.id
         ], function (err, result) {
 
-            callback(result);
+            cb(result);
 
         });
     }

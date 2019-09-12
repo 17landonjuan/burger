@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/17landonjuan/burger#readme",
   "dependencies": {
+    "@mysql/xdevapi": "8.0.17",
     "cli": "^1.0.1",
     "express": "^4.17.1",
     "express-handlebars": "^3.1.0",
