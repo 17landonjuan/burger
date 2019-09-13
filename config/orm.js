@@ -1,50 +1,52 @@
-var connection = require("./connection.js");
+var connection = require("../config/connection.js");
 
-// ORM
-// =============================================================
+connection.connect(function (err) {
+    if (err) {
+        console.log('Error', err.stack);
+    }
+    console.log('Connected as id: %s', connection.threadId)
+});
 
-var tableName = "burgers";
+
+
+
 
 var orm = {
 
-    // Here our ORM is creating a simple method for performing a query of the entire table.
-    // We make use of the callback to ensure that data is returned only once the query is done.
-    selectAll: function (callback) {
-        var s = "SELECT * FROM " + tableName;
 
-        connection.query(s, function (err, result) {
-
-            return (result);
-
-        });
-    },
-
-
-
-    insertOne: function (burger, ) {
-        var s = "INSERT INTO " + tableName + " (text, complete) VALUES (?,?)";
-        burger.complete = burger.complete || 0;
-        connection.query(s, [
-            burger.text, burger.complete
-        ], function (err, result) {
-
-            return (result);
-
-        });
-    },
-
-    updateOne: function (burger, cb) {
-        var s = "UPDATE " + tableName + " SET text=? WHERE id=?";
-
-        connection.query(s, [
-            burger.text, burger.id
-        ], function (err, result) {
+    selectAll: function (tableName, cb) {
+        connection.query('SELECT * FROM burgers', function (err, result) {
+            if (err) throw err;
 
             cb(result);
+        });
+    },
 
+
+
+
+
+
+    insertOne: function (burger, cb) {
+        var burgerName = burger;
+        var mySQLQuery = "INSERT INTO burgers (burger_name) VALUES ('" + burgerName + "')";
+        connection.query(mySQLQuery, function (err, result) {
+            if (err) throw err;
+            cb(result);
+        });
+    },
+
+
+
+
+    updateOne: function (burger, cb) {
+        var id = burger;
+        connection.query("UPDATE burgers SET devoured=1 WHERE id=?", [id], function (err, result) {
+            if (err) throw err;
+            cb(result);
         });
     }
-
 };
+
 
 module.exports = orm;
